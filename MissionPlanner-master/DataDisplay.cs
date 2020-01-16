@@ -22,7 +22,10 @@ namespace MissionPlanner
         double bottleAltitude = 0;
         double pongAltitude = 0;
         double calibratedAltitude = 0;
-
+        double targetLat = 0;
+        double targetLong = 0;
+        double leniencyNum = 0;
+        public bool servoOn = false;
         public DataDisplay()
         {
             InitializeComponent();
@@ -58,38 +61,52 @@ namespace MissionPlanner
         {
             this.calibratedAltitude = MainV2.comPort.MAV.cs.alt * 3.28084;
         }
-        public void setAltitude(double alt)
+        private void setAltitude()
         {
 
-            this.altitude = alt - this.calibratedAltitude;
+            this.altitude = (MainV2.comPort.MAV.cs.alt * 3.28084) - this.calibratedAltitude;
             this.altitudeValue.Text = this.altitude + " ft";
             //this.alt_value.Refresh();
 
         }
-        public void setLatitude(double lat)
+        private void setLatitude()
         {
-            this.latitudeValue.Text = lat + " ft";
+            this.latitudeValue.Text = MainV2.comPort.MAV.cs.lat + " ft";
             //this.alt_value.Refresh();
 
         }
-        public void setLongitude(double lon)
+        private void setLongitude()
         {
-            this.longitudeValue.Text = lon + " ft";
+            this.longitudeValue.Text = MainV2.comPort.MAV.cs.lng + " ft";
             //this.alt_value.Refresh();
 
         }
-        public void setAirSpeed(double air)
+        private void setAirSpeed()
         {
-            this.airSpeedValue.Text = air + " ft";
+            this.airSpeedValue.Text = MainV2.comPort.MAV.cs.airspeed + " ft";
             //this.alt_value.Refresh();
 
         }
-        public void setGroundSpeed(double gnd)
+        private void setGroundSpeed()
         {
-            this.groundSpeedValue.Text = gnd + " ft";
+            this.groundSpeedValue.Text = MainV2.comPort.MAV.cs.groundspeed + " ft";
             //this.alt_value.Refresh();
 
         }
+        private void setLeniency()
+        {
+            try
+            {
+                leniencyNum = Double.Parse(TargetLeniencyLabel.Text);
+            }
+            catch (FormatException)
+            {
+
+
+            }
+        }
+    
+
         //Method for time stamping payload drop will problably have two separate methods for each type
         public void recordPingDrop()
         {
@@ -105,8 +122,14 @@ namespace MissionPlanner
             this.waterIndicatorIcon.BackColor = Color.FromArgb(255, 0, 255, 0);
         }
         //Should we use one method to update all of the data recorded and make the other methods private?
-        private void update()
+        public void update()
         {
+            setAltitude();
+            setLatitude();
+            setLongitude();
+            setAirSpeed();
+            setGroundSpeed();
+            setLeniency();
 
         }
 
@@ -114,15 +137,51 @@ namespace MissionPlanner
         {
             calibrateAltitude();
         }
-
-        private void longitudeLabel_Click(object sender, EventArgs e)
+        public Double DistanceWithinTarget()
         {
+            double R = 6373.0;
 
+            double lat1 = radians(MainV2.comPort.MAV.cs.lat);
+            double lon1 = radians(MainV2.comPort.MAV.cs.lng);
+            double lat2 = radians(targetLat);
+            double lon2 = radians(targetLong);
+            double dlon = lon2 - lon1;
+            double dlat = lat2 - lat1;
+            double a = Math.Pow(Math.Sin(dlat / 2), 2) + Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(Math.Sin(dlon / 2), 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            double distance = R * c;
+
+            return distance;
+
+            //Double latDistance = MainV2.comPort.MAV.cs.lat - targetLat;
+            //Double longDistance = MainV2.comPort.MAV.cs.lng  - targetLong;
+            //Double targetDistance = Math.Sqrt(Math.Pow(latDistance, 2) + Math.Pow(longDistance, 2));
+
+            //return targetDistance;
+        }
+        public bool isWithinTarget() {
+
+            return DistanceWithinTarget() <= Double.Parse(TargetLeniencyTextbox.Text);
+        }
+         
+        public void calibrateTarget() {
+            targetLat = MainV2.comPort.MAV.cs.lat;
+            targetLong = MainV2.comPort.MAV.cs.lng;
+        }
+        private void calibrateTargetButton_Click(object sender, EventArgs e)
+        {
+            calibrateTarget();
+            TargetCoordinateLabel.Text = targetLat + ", " + targetLong;
         }
 
-        private void DataDisplay_Load(object sender, EventArgs e)
+        private void SurvoTurnButton_Click(object sender, EventArgs e)
         {
 
+            servoOn = !servoOn;
+        }
+        private double radians(double angle)
+        {
+            return Math.PI * angle / 180.0;
         }
     }
 }

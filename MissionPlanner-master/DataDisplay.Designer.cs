@@ -47,6 +47,13 @@
             this.groundSpeedValue = new MissionPlanner.Controls.MyLabel();
             this.payloadAltitudeValue = new MissionPlanner.Controls.MyLabel();
             this.altitudeCalibration = new System.Windows.Forms.Button();
+            this.TargetLeniencyLabel = new MissionPlanner.Controls.MyLabel();
+            this.TargetLeniencyTextbox = new System.Windows.Forms.TextBox();
+            this.TargetLabelLatNum = new MissionPlanner.Controls.MyLabel();
+            this.TargetLabelLat = new MissionPlanner.Controls.MyLabel();
+            this.SurvoTurnButton = new MissionPlanner.Controls.MyButton();
+            this.TargetCoordinateLabel = new MissionPlanner.Controls.MyLabel();
+            this.calibrateTargetButton = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.waterIndicatorIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pingIndicatorIcon)).BeginInit();
             this.SuspendLayout();
@@ -54,7 +61,7 @@
             // altitudeValue
             // 
             this.altitudeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F);
-            this.altitudeValue.Location = new System.Drawing.Point(383, 227);
+            this.altitudeValue.Location = new System.Drawing.Point(383, 213);
             this.altitudeValue.Name = "altitudeValue";
             this.altitudeValue.resize = false;
             this.altitudeValue.Size = new System.Drawing.Size(875, 82);
@@ -97,7 +104,7 @@
             // longitudeValue
             // 
             this.longitudeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.longitudeValue.Location = new System.Drawing.Point(362, 356);
+            this.longitudeValue.Location = new System.Drawing.Point(362, 342);
             this.longitudeValue.Name = "longitudeValue";
             this.longitudeValue.resize = false;
             this.longitudeValue.Size = new System.Drawing.Size(387, 58);
@@ -129,7 +136,7 @@
             // 
             this.cdaLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F);
             this.cdaLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cdaLabel.Location = new System.Drawing.Point(12, 120);
+            this.cdaLabel.Location = new System.Drawing.Point(12, 111);
             this.cdaLabel.Name = "cdaLabel";
             this.cdaLabel.resize = false;
             this.cdaLabel.Size = new System.Drawing.Size(460, 101);
@@ -154,7 +161,7 @@
             this.pingIndicatorIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pingIndicatorIcon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pingIndicatorIcon.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.pingIndicatorIcon.Location = new System.Drawing.Point(592, 120);
+            this.pingIndicatorIcon.Location = new System.Drawing.Point(592, 111);
             this.pingIndicatorIcon.Name = "pingIndicatorIcon";
             this.pingIndicatorIcon.Size = new System.Drawing.Size(99, 96);
             this.pingIndicatorIcon.TabIndex = 13;
@@ -174,7 +181,7 @@
             // latitudeValue
             // 
             this.latitudeValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latitudeValue.Location = new System.Drawing.Point(362, 311);
+            this.latitudeValue.Location = new System.Drawing.Point(362, 297);
             this.latitudeValue.Name = "latitudeValue";
             this.latitudeValue.resize = false;
             this.latitudeValue.Size = new System.Drawing.Size(387, 53);
@@ -191,7 +198,6 @@
             this.longitudeLabel.Size = new System.Drawing.Size(245, 53);
             this.longitudeLabel.TabIndex = 16;
             this.longitudeLabel.Text = "Longitude:";
-            this.longitudeLabel.Click += new System.EventHandler(this.longitudeLabel_Click);
             // 
             // groundSpeedLabel
             // 
@@ -207,7 +213,7 @@
             // airSpeedValue
             // 
             this.airSpeedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.airSpeedValue.Location = new System.Drawing.Point(362, 406);
+            this.airSpeedValue.Location = new System.Drawing.Point(362, 392);
             this.airSpeedValue.Name = "airSpeedValue";
             this.airSpeedValue.resize = false;
             this.airSpeedValue.Size = new System.Drawing.Size(387, 53);
@@ -228,7 +234,7 @@
             // groundSpeedValue
             // 
             this.groundSpeedValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groundSpeedValue.Location = new System.Drawing.Point(362, 456);
+            this.groundSpeedValue.Location = new System.Drawing.Point(362, 451);
             this.groundSpeedValue.Name = "groundSpeedValue";
             this.groundSpeedValue.resize = false;
             this.groundSpeedValue.Size = new System.Drawing.Size(387, 53);
@@ -254,7 +260,72 @@
             this.altitudeCalibration.TabIndex = 22;
             this.altitudeCalibration.Text = "Altitude Calibration";
             this.altitudeCalibration.UseVisualStyleBackColor = true;
-            this.altitudeCalibration.Click += new System.EventHandler(this.altitudeCalibration_Click);
+            // 
+            // TargetLeniencyLabel
+            // 
+            this.TargetLeniencyLabel.Location = new System.Drawing.Point(754, 383);
+            this.TargetLeniencyLabel.Name = "TargetLeniencyLabel";
+            this.TargetLeniencyLabel.resize = false;
+            this.TargetLeniencyLabel.Size = new System.Drawing.Size(116, 23);
+            this.TargetLeniencyLabel.TabIndex = 29;
+            this.TargetLeniencyLabel.Text = "Target Leniency (m):";
+            // 
+            // TargetLeniencyTextbox
+            // 
+            this.TargetLeniencyTextbox.Location = new System.Drawing.Point(876, 386);
+            this.TargetLeniencyTextbox.Name = "TargetLeniencyTextbox";
+            this.TargetLeniencyTextbox.Size = new System.Drawing.Size(204, 20);
+            this.TargetLeniencyTextbox.TabIndex = 30;
+            // 
+            // TargetLabelLatNum
+            // 
+            this.TargetLabelLatNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F);
+            this.TargetLabelLatNum.Location = new System.Drawing.Point(756, 342);
+            this.TargetLabelLatNum.Name = "TargetLabelLatNum";
+            this.TargetLabelLatNum.resize = false;
+            this.TargetLabelLatNum.Size = new System.Drawing.Size(262, 35);
+            this.TargetLabelLatNum.TabIndex = 27;
+            this.TargetLabelLatNum.Text = "myLabel1";
+            // 
+            // TargetLabelLat
+            // 
+            this.TargetLabelLat.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TargetLabelLat.Location = new System.Drawing.Point(754, 297);
+            this.TargetLabelLat.Name = "TargetLabelLat";
+            this.TargetLabelLat.resize = false;
+            this.TargetLabelLat.Size = new System.Drawing.Size(347, 39);
+            this.TargetLabelLat.TabIndex = 25;
+            this.TargetLabelLat.Text = "Distance from Target:";
+            // 
+            // SurvoTurnButton
+            // 
+            this.SurvoTurnButton.Location = new System.Drawing.Point(756, 481);
+            this.SurvoTurnButton.Name = "SurvoTurnButton";
+            this.SurvoTurnButton.Size = new System.Drawing.Size(94, 23);
+            this.SurvoTurnButton.TabIndex = 32;
+            this.SurvoTurnButton.Text = "Turn Survo";
+            this.SurvoTurnButton.UseVisualStyleBackColor = true;
+            this.SurvoTurnButton.Click += new System.EventHandler(this.SurvoTurnButton_Click);
+            // 
+            // TargetCoordinateLabel
+            // 
+            this.TargetCoordinateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F);
+            this.TargetCoordinateLabel.Location = new System.Drawing.Point(754, 412);
+            this.TargetCoordinateLabel.Name = "TargetCoordinateLabel";
+            this.TargetCoordinateLabel.resize = false;
+            this.TargetCoordinateLabel.Size = new System.Drawing.Size(262, 35);
+            this.TargetCoordinateLabel.TabIndex = 33;
+            this.TargetCoordinateLabel.Text = "myLabel1";
+            // 
+            // calibrateTargetButton
+            // 
+            this.calibrateTargetButton.Location = new System.Drawing.Point(756, 453);
+            this.calibrateTargetButton.Name = "calibrateTargetButton";
+            this.calibrateTargetButton.Size = new System.Drawing.Size(94, 23);
+            this.calibrateTargetButton.TabIndex = 34;
+            this.calibrateTargetButton.Text = "Calibrate Target";
+            this.calibrateTargetButton.UseVisualStyleBackColor = true;
+            this.calibrateTargetButton.Click += new System.EventHandler(this.calibrateTargetButton_Click);
             // 
             // DataDisplay
             // 
@@ -262,7 +333,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1585, 561);
+            this.ClientSize = new System.Drawing.Size(1238, 561);
+            this.Controls.Add(this.calibrateTargetButton);
+            this.Controls.Add(this.TargetCoordinateLabel);
+            this.Controls.Add(this.SurvoTurnButton);
+            this.Controls.Add(this.TargetLeniencyTextbox);
+            this.Controls.Add(this.TargetLeniencyLabel);
+            this.Controls.Add(this.TargetLabelLatNum);
+            this.Controls.Add(this.TargetLabelLat);
             this.Controls.Add(this.altitudeCalibration);
             this.Controls.Add(this.groundSpeedLabel);
             this.Controls.Add(this.airSpeedValue);
@@ -285,10 +363,10 @@
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Name = "DataDisplay";
             this.Text = "Data Aquisition System";
-            this.Load += new System.EventHandler(this.DataDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.waterIndicatorIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pingIndicatorIcon)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -313,5 +391,12 @@
         private Controls.MyLabel groundSpeedValue;
         private Controls.MyLabel payloadAltitudeValue;
         private System.Windows.Forms.Button altitudeCalibration;
+        private Controls.MyLabel TargetLeniencyLabel;
+        private System.Windows.Forms.TextBox TargetLeniencyTextbox;
+        private Controls.MyLabel TargetLabelLatNum;
+        private Controls.MyLabel TargetLabelLat;
+        private Controls.MyButton SurvoTurnButton;
+        private Controls.MyLabel TargetCoordinateLabel;
+        private Controls.MyButton calibrateTargetButton;
     }
 }

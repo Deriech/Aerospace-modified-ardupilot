@@ -18,13 +18,10 @@ isCalibrated = False;
 pingServo = 0;
 waterServo = 0;
 calibrateServo = 0;
-
+WithinLen = False;
+# A rough estimate of deg to m: 1 deg = 111,111 m (111.111 km)
 while(True):
-	DAS.setAltitude(round((cs.altasl2 * 3.28084),9));
-	DAS.setLongitude(round((cs.lng * 3.28084),9));
-	DAS.setLatitude(round((cs.lat * 3.28084),9));
-	DAS.setAirSpeed(round((cs.airspeed * 3.28084),9));
-	DAS.setGroundSpeed(round((cs.groundspeed * 3.28084),9));
+	DAS.update();
 	pingServo = cs.ch6in;
 	waterServo = cs.ch7in;
 	if (not dropPing) and (pingServo<1000):
@@ -37,5 +34,12 @@ while(True):
 		dropWater = True;
 		MissionPlanner.MainV2.speechEngine.SpeakAsync("Payload bay released")
 		DAS.recordWaterDrop();
-	#time.sleep(0.1);
+	if(not WithinLen) and (DAS.isWithinTarget):
+		print 'Payload is within target Range'
+		WithinLen = True;
+	if (DAS.servoOn):
+    		Script.SendRC(8,1900,True);
+	else:
+        	Script.SendRC(8,1100,True);
 
+	#time.sleep(0.1);
